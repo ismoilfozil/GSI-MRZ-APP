@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             const Icon(
               Icons.document_scanner_outlined,
               size: 80,
-              color: Colors.blue,
+              color: Color(0xFFE4A216),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.camera_alt),
               label: const Text('Open Scanner'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: const Color(0xFFE4A216),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                 textStyle: const TextStyle(fontSize: 16),

@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'GSI MRZ App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFE4A216)),
         useMaterial3: true,
       ),
       home: const HomeScreen(),

@@ -52,20 +52,28 @@ class VerificationData {
   });
 
   factory VerificationData.fromJson(Map<String, dynamic> json) {
+    String pick(List<String> keys) {
+      for (final k in keys) {
+        final v = json[k];
+        if (v is String && v.isNotEmpty) return v;
+      }
+      return '';
+    }
+
     return VerificationData(
-      namelat: json['namelat'] ?? '',
-      surnamelat: json['surnamelat'] ?? '',
-      patronymlat: json['patronymlat'] ?? '',
-      namecyr: json['namecyr'] ?? '',
-      surnamecyr: json['surnamecyr'] ?? '',
-      patronymcyr: json['patronymcyr'] ?? '',
-      birthDate: json['birth_date'] ?? '',
-      birthplace: json['birthplace'] ?? '',
-      citizenship: json['citizenship'] ?? '',
-      docPinfl: json['doc_pinfl'] ?? '',
-      currentDocument: json['current_document'] ?? '',
-      livestatus: json['livestatus'] ?? '',
-      sex: json['sex'] ?? '',
+      namelat: pick(['namelat', 'givenname', 'first_name']),
+      surnamelat: pick(['surnamelat', 'surname', 'last_name']),
+      patronymlat: pick(['patronymlat', 'patronym']),
+      namecyr: pick(['namecyr']),
+      surnamecyr: pick(['surnamecyr']),
+      patronymcyr: pick(['patronymcyr']),
+      birthDate: pick(['birth_date']),
+      birthplace: pick(['birthplace', 'birth_place']),
+      citizenship: pick(['citizenship']),
+      docPinfl: pick(['doc_pinfl', 'pin', 'current_pinpp']),
+      currentDocument: pick(['current_document', 'document']),
+      livestatus: pick(['livestatus']),
+      sex: pick(['sex', 'gender']),
     );
   }
 }

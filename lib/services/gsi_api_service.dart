@@ -8,6 +8,7 @@ class GsiApiService {
   static const _baseUrl = 'https://dev-gateway.tadi.uz';
 
   static Future<VerificationResponse> verify({
+    required String docSeria,
     required String docNumber,
     required String birthDate,
     required File videoFile,
@@ -20,21 +21,27 @@ class GsiApiService {
       Uri.parse('$_baseUrl/api/v1/gsi/verify_b64'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'birth_date': birthDate,
-        'clientId': 'unknown',
+        'doc_seria': docSeria,
         'doc_number': docNumber,
         'doc_pinfl': '',
+        'birth_date': birthDate,
+        'video': videoBase64,
+        'clientId': 'unknown',
+        'bankId': 'unknown',
         'requestId': requestId,
         'serviceName': 'unknown',
-        'token': videoBase64,
+        'userId': 'unknown',
+        'token': 'unknown',
       }),
     );
 
     if (response.statusCode == 200) {
+      print('API response: ${response.body}');
       return VerificationResponse.fromJson(
         jsonDecode(response.body) as Map<String, dynamic>,
       );
     } else {
+      print('API error ${response.statusCode}: ${response.body}');
       throw Exception('API error ${response.statusCode}: ${response.body}');
     }
   }

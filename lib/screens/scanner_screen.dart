@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mrz_scanner/flutter_mrz_scanner.dart';
 import 'package:mrz_parser/mrz_parser.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'result_screen.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -14,6 +15,24 @@ class _ScannerScreenState extends State<ScannerScreen> {
   MRZController? _controller;
   bool _flashOn = false;
   bool _navigating = false;
+  bool _permissionGranted = false;
+  bool _permissionChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _requestCameraPermission();
+  }
+
+  Future<void> _requestCameraPermission() async {
+    final status = await Permission.camera.request();
+    if (mounted) {
+      setState(() {
+        _permissionGranted = status == PermissionStatus.granted;
+        _permissionChecked = true;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -59,7 +78,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
         ],
       ),
       backgroundColor: Colors.black,
-      body: Stack(
+      body: !_permissionChecked
+          ? const Center(child: CircularProgressIndicator())
+          : !_permissionGranted
+              ? const Center(
+                  child: Text(
+                    'Camera permission is required to scan documents.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : Stack(
         children: [
           MRZScanner(
             withOverlay: true,
